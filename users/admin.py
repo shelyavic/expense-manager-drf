@@ -1,20 +1,24 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.utils.translation import gettext_lazy as _
 from users.models import CustomUser
+
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     fieldsets = (
-        (None, {
-            "fields": (
-                ('email', 'password',)
-                
-            ),
-            }
+        (
+            None,
+            {
+                "fields": (
+                    (
+                        "email",
+                        "password",
+                    )
+                ),
+            },
         ),
         (
-            _("Permissions"),
+            "Permissions",
             {
                 "fields": (
                     "is_active",
@@ -24,14 +28,12 @@ class CustomUserAdmin(UserAdmin):
                     "user_permissions",
                 ),
             },
-        ), 
-        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+        ),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
-    add_fieldsets = (
-        (None, {'fields': ('email', 'password1', 'password2')}),
-    )
+    add_fieldsets = ((None, {"fields": ("email", "password1", "password2")}),)
 
-    ordering = ('email',)
+    ordering = ("email",)
 
     list_display = ("email", "is_staff")
 
