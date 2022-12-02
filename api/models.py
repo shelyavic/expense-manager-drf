@@ -10,6 +10,9 @@ class Category(models.Model):
         related_query_name="category",
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Transaction(models.Model):
     money_amount = models.DecimalField(
@@ -24,3 +27,6 @@ class Transaction(models.Model):
     created_at = models.DateTimeField(
         "Date and Time of the transaction", auto_now_add=True
     )
+
+    def __str__(self):
+        return self.description
