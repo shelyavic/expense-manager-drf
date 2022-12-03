@@ -16,8 +16,6 @@ class CategorySerializer(serializers.ModelSerializer):
         extra_kwargs = {"id": {"read_only": True}}
 
 
-        
-
 
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
