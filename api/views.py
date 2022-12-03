@@ -19,6 +19,8 @@ class CategoryViewSet(ModelViewSet):
         return self.kwargs.get("user_pk")
 
     def get_queryset(self):
+        if self.user_pk is None:
+            return Category.objects.none()
         return get_object_or_404(get_user_model(), id=self.user_pk).categories.all()
 
     def perform_create(self, serializer):
@@ -52,6 +54,9 @@ class TransactionViewSet(ModelViewSet):
         return self.kwargs.get("user_pk")
 
     def get_queryset(self):
+        if self.user_pk is None:
+            return Transaction.objects.none()
+
         return get_object_or_404(
             get_user_model(), id=self.user_pk
         ).transaction_set.all()
