@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.conf import settings
 
@@ -27,6 +28,8 @@ class Transaction(models.Model):
     created_at = models.DateTimeField(
         "Date and Time of the transaction", auto_now_add=True
     )
+
+    datetime = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         return self.description
