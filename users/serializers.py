@@ -1,3 +1,4 @@
+import datetime
 from rest_framework import serializers
 from users.models import CustomUser
 from django.contrib.auth.password_validation import validate_password
@@ -35,3 +36,41 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data["password"])
         user.save()
         return user
+
+
+class UserStatisticsSerializer(serializers.Serializer):
+    total_expenses = serializers.SerializerMethodField()
+    total_income = serializers.SerializerMethodField()
+    last_week_expenses = serializers.SerializerMethodField()
+    last_week_income = serializers.SerializerMethodField()
+
+    @property
+    def expenses(self):
+        return self.instance.transaction_set.filter(money_amount__lt=0)
+
+    @property
+    def income(self):
+        return self.instance.transaction_set.filter(money_amount__gt=0)
+
+    def aggregate_sum(self, queryset):
+        return queryset.aggregate(sum_=Sum("money_amount"))["sum_"] or 0
+
+    def get_total_expenses(self, obj):
+        return self.aggregate_sum(self.expenses)
+
+    def get_total_income(self, obj):
+        return self.aggregate_sum(self.income)
+
+    def get_last_week_expenses(self, obj):
+        return self.aggregate_sum(
+            self.expenses.filter(
+                datetime__gt=datetime.datetime.now() - datetime.timedelta(days=7),
+            )
+        )
+
+    def get_last_week_income(self, obj):
+        return self.aggregate_sum(
+            self.income.filter(
+                datetime__gt=datetime.datetime.now() - datetime.timedelta(days=7),
+            )
+        )
