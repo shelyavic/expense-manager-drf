@@ -2,17 +2,19 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework.exceptions import ValidationError
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 from api.models import Transaction, Category
 from api.serializers import TransactionSerializer, CategorySerializer
 from api.filtersets import TransactionFilterSet
+from api.permissions import IsUserOwner
 
 
 class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
+    permission_classes = [IsUserOwner | IsAdminUser]
 
     @property
     def user_pk(self):
@@ -44,6 +46,7 @@ class CategoryViewSet(ModelViewSet):
 
 class TransactionViewSet(ModelViewSet):
     serializer_class = TransactionSerializer
+    permission_classes = [IsUserOwner | IsAdminUser]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = TransactionFilterSet
     ordering_fields = ["money_amount", "datetime"]
