@@ -65,4 +65,4 @@ class TransactionViewSet(ModelViewSet):
         ).transaction_set.all()
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.user_pk)
+        serializer.save(owner_id=self.user_pk)
