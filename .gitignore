@@ -130,3 +130,6 @@ dmypy.json
 
 docs/
 .vscode
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir
