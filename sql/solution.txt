@@ -1,0 +1,16 @@
+-- Task N1
+select brand.title, count(model.id) 
+	from notebooks_notebook as model 
+		inner join notebooks_brand as brand 
+		on model.brand_id = brand.id 
+	group by brand.title 
+	order by count(model.id) desc;
+
+-- Task N2
+select ceil(width / 5) * 5 as "width n",
+	ceil(depth / 5) * 5 as "depth n",
+	ceil(height / 5) * 5 as "height n",
+	count(id) as "count n"
+	from notebooks_notebook
+	group by "width n", "depth n", "height n"
+	order by "width n", "depth n", "height n";
