@@ -1,6 +1,11 @@
 # Requirements:
 - Miniconda
 - Redis
+- Google Mail account
+
+# Configuration guide
+1. Create an [app-password](https://support.google.com/accounts/answer/185833)
+2. Set your email and password in main/settings.py
 
 # Installation guide
 1. Create conda environment:  
