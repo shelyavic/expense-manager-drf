@@ -26,10 +26,12 @@ class Transaction(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(
-        "Date and Time of the transaction", auto_now_add=True
+        "Date and Time of the transaction creation", auto_now_add=True
     )
 
-    datetime = models.DateTimeField(default=datetime.datetime.now())
+    datetime = models.DateTimeField(
+        "Date and Time of the transaction", default=datetime.datetime.now()
+    )
 
     def __str__(self):
         return self.description
