@@ -1,6 +1,6 @@
-import datetime
 from django.db import models
 from django.conf import settings
+from django.utils.timezone import now
 
 
 class Category(models.Model):
@@ -29,9 +29,7 @@ class Transaction(models.Model):
         "Date and Time of the transaction creation", auto_now_add=True
     )
 
-    datetime = models.DateTimeField(
-        "Date and Time of the transaction", default=datetime.datetime.now()
-    )
+    datetime = models.DateTimeField("Date and Time of the transaction", default=now)
 
     def __str__(self):
         return self.description
