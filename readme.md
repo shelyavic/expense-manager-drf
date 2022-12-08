@@ -24,3 +24,7 @@
 ## Documentation
 The project has a swagger integration.  
 Open `127.0.0.1:8000/swagger` to see all available urls.  
+
+## Demo
+http://shelyavic.pythonanywhere.com/
+(No email delivery, session authentication instead of JWT)
