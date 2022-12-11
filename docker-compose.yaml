@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  web:
+    build: ./project
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./project/:/usr/src/app/
+    ports:
+      - 1337:8000
+    depends_on:
+      - redis
+  redis:
+    image: redis:alpine
+  celery:
+    build: ./project
+    command: celery -A main worker -l info
+    volumes:
+      - ./project/:/usr/src/app/
+    depends_on:
+      - redis
+  celery-beat:
+    build: ./project
+    command: celery -A main beat -l info
+    volumes:
+      - ./project/:/usr/src/app/
+    depends_on:
+      - redis

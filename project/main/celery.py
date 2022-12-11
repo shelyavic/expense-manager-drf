@@ -12,6 +12,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     "every": {
         "task": "users.tasks.distribute_email_tasks",
-        "schedule": crontab(hour=8, minute=0),
+        "schedule": crontab(),
+        # "schedule": crontab(hour=8, minute=0),
     },
 }
