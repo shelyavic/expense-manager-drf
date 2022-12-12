@@ -7,9 +7,6 @@ WORKDIR /usr/src/app
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV DEBUG 1
-ENV SECRET_KEY "&7uy^(!$#-(f3etye&ll5xcy3(k16*+xgu0l=o0p-oj_vhs($4"
-ENV DJANGO_ALLOWED_HOSTS "localhost 127.0.0.1 [::1]"
 
 # install dependencies
 RUN pip install --upgrade pip
