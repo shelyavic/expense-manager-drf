@@ -13,7 +13,7 @@ services:
     depends_on:
       - redis
     env_file:
-      - variables.env
+      - .env
 
   celery:
     build: ./project
@@ -23,7 +23,7 @@ services:
     depends_on:
       - redis
     env_file:
-      - variables.env
+      - .env
 
   celery-beat:
     build: ./project
@@ -33,4 +33,4 @@ services:
     depends_on:
       - redis
     env_file:
-      - variables.env
+      - .env
