@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveAPIView
@@ -25,6 +26,7 @@ DEFAULT_CATEGORIES = [
 
 
 class UserViewSet(ModelViewSet):
+
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all()
 
@@ -44,12 +46,22 @@ class UserViewSet(ModelViewSet):
 
 
 class UserStatistics(RetrieveAPIView):
+    """
+    Returns statistics for requested user.
+
+    Default user has access only to his statistics.
+    """
+
     queryset = CustomUser.objects.prefetch_related("transaction_set")
     serializer_class = UserStatisticsSerializer
     permission_classes = [IsOwner | IsAdminUser]
 
 
 class CurrentUser(APIView):
+    """
+    Returns information about current logged in user.
+    """
+
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
