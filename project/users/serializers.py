@@ -1,4 +1,6 @@
 import datetime
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from users.models import CustomUser
 from django.contrib.auth.password_validation import validate_password
@@ -17,6 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ("id", "email", "balance", "password", "password2")
         extra_kwargs = {"id": {"read_only": True}}
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_balance(self, obj):
         result = obj.transaction_set.aggregate(transactions_sum=Sum("money_amount"))
         return result["transactions_sum"] or 0
@@ -55,12 +58,15 @@ class UserStatisticsSerializer(serializers.Serializer):
     def aggregate_sum(self, queryset):
         return queryset.aggregate(sum_=Sum("money_amount"))["sum_"] or 0
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_total_expenses(self, obj):
         return self.aggregate_sum(self.expenses)
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_total_income(self, obj):
         return self.aggregate_sum(self.income)
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_last_week_expenses(self, obj):
         return self.aggregate_sum(
             self.expenses.filter(
@@ -68,6 +74,7 @@ class UserStatisticsSerializer(serializers.Serializer):
             )
         )
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_last_week_income(self, obj):
         return self.aggregate_sum(
             self.income.filter(

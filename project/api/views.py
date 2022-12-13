@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework.exceptions import ValidationError
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAdminUser
@@ -12,6 +13,7 @@ from api.filtersets import TransactionFilterSet
 from api.permissions import IsUserOwner
 
 
+@extend_schema(parameters=[OpenApiParameter("user_pk", int, OpenApiParameter.PATH)])
 class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [IsUserOwner | IsAdminUser]
@@ -44,6 +46,7 @@ class CategoryViewSet(ModelViewSet):
         category.users.add(self.user_pk)
 
 
+@extend_schema(parameters=[OpenApiParameter("user_pk", int, OpenApiParameter.PATH)])
 class TransactionViewSet(ModelViewSet):
     serializer_class = TransactionSerializer
     permission_classes = [IsUserOwner | IsAdminUser]
